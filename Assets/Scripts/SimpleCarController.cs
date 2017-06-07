@@ -8,6 +8,8 @@ public class SimpleCarController : MonoBehaviour
 	public float maxMotorTorque; // maximum torque the motor can apply to wheel
 	public float maxSteeringAngle; // maximum steer angle the wheel can have
 
+    public bool Player2;
+
 	// finds the corresponding visual wheel
 	// correctly applies the transform
 	public void ApplyLocalPositionToVisuals(WheelCollider collider, Vector3 offset)
@@ -28,8 +30,15 @@ public class SimpleCarController : MonoBehaviour
 
 	public void FixedUpdate()
 	{
-		float motor = maxMotorTorque * Input.GetAxis("Vertical");
+		float motor = maxMotorTorque * -Input.GetAxis("Accel");
 		float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
+
+        if(Player2)
+        {
+            motor = maxMotorTorque * Input.GetAxis("Accel2");
+            steering = maxSteeringAngle * Input.GetAxis("Horizontal2");
+        }
+        
 
 		foreach (AxleInfo axleInfo in axleInfos) 
 		{
