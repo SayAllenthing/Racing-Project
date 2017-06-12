@@ -13,7 +13,7 @@ public class AIController : CarController {
 
 	float StuckTime = 0;
 
-	float LastFartTime = 0;
+	float NextFartTime = 0;
 
 	void FixedUpdate()
 	{
@@ -42,9 +42,9 @@ public class AIController : CarController {
 			//Sharp Turn
 			if(Mathf.Abs(whichWay) > 0.5f)
 			{				
-				if(body.velocity.magnitude > 10f)
+				if(body.velocity.magnitude > 8f)
 					motor.motor = -1f;
-				else if(body.velocity.magnitude < 2)
+				else if(body.velocity.magnitude < 3)
 					motor.motor = 1;
 				else
 					motor.motor = 0f;
@@ -52,8 +52,8 @@ public class AIController : CarController {
 			else if(Mathf.Abs(whichWay) > 0.25f)//Minor Turn
 			{
 				if(body.velocity.magnitude > 10)
-					motor.motor = 0.25f;
-				else if(body.velocity.magnitude < 2)
+					motor.motor = -0.5f;
+				else if(body.velocity.magnitude < 4)
 					motor.motor = 1f;
 				else
 					motor.motor = 0.5f;
@@ -84,7 +84,7 @@ public class AIController : CarController {
 			RaycastHit hit;
 			int layerMask = 1 << LayerMask.NameToLayer("Fence");
 
-			if(Physics.Raycast(transform.position, transform.forward, out hit, 2f, layerMask))
+			if(Physics.Raycast(transform.position, transform.forward, out hit, 4f, layerMask))
 			{
 				motor.motor = -1;
 			}
@@ -103,7 +103,7 @@ public class AIController : CarController {
 
 		//Farting
 		//If there's enough time, and we're facing the right direction
-		if( Time.time > LastFartTime + 5 && Mathf.Abs(whichWay) < 0.1f)
+		if( Time.time > NextFartTime && Mathf.Abs(whichWay) < 0.1f)
 		{
 			//If we're going too slow or we're far away enough
 			if(body.velocity.magnitude < 2 || distance > 5)
@@ -115,11 +115,15 @@ public class AIController : CarController {
 				if(!Physics.Raycast(transform.position, transform.forward, out hit, 4f, layerMask))
 				{
 					int rand = Random.Range(0, 10);
-					if(rand > 7)
-					{
-						LastFartTime = Time.time;
-						Fart();
-					}
+                    if (rand > 7)
+                    {
+                        NextFartTime = Time.time + 5;
+                        Fart();
+                    }
+                    else
+                    {
+                        NextFartTime = Time.time + 0.4f;
+                    }
 				}
 			}
 		} 

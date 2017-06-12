@@ -34,7 +34,7 @@ public class UISelectController : MonoBehaviour {
 	void Update () 
 	{
 		if(Input.GetButtonDown("Confirm" + Player.Number.ToString()))
-		{
+		{            
 			if(!bEnabled)
 			{
 				Enable();

@@ -7,10 +7,13 @@ public class AnimalHeadRotator : MonoBehaviour {
 	float rotationTime = 0;
 	float WantRotation = 0;
 
+    float DefaultZ = 0;
+
 	// Use this for initialization
 	void Start () {
-		
-	}
+        DefaultZ = transform.localEulerAngles.z;
+        PickRotation();
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -30,8 +33,11 @@ public class AnimalHeadRotator : MonoBehaviour {
 
 	void PickRotation()
 	{
-		WantRotation = Random.Range(-20, 20);
-		rotationTime = Time.time + 5;
+		WantRotation = Mathf.Clamp(DefaultZ + Random.Range(0, 20), 0, 20);
+		rotationTime = Time.time + 2;
+        
+
+        Debug.Log(WantRotation);
 	}
 
 }
