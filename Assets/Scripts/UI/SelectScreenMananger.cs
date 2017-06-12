@@ -50,6 +50,6 @@ public class SelectScreenMananger : MonoBehaviour {
 			d.bIsActive = true;
 		}
 
-		UnityEngine.SceneManagement.SceneManager.LoadScene("TrackTest");
+		UnityEngine.SceneManagement.SceneManager.LoadScene("TrackFarm");
 	}
 }
