@@ -24,11 +24,7 @@ public class CarController : MonoBehaviour {
 
 	int Place = 0;
 
-	// Use this for initialization
-	void Start () 
-	{
-		
-	}
+
 
 	public virtual void Init()
 	{		
@@ -40,7 +36,7 @@ public class CarController : MonoBehaviour {
 		NextCheckPoint = raceManager.GetNextCheckPoint(this);
 		OnNextCheckPoint();
 
-		if(!raceManager.bRaceComplete)
+		if(raceManager != null && !raceManager.bRaceComplete)
 		{
 			raceManager.AddCar(this);
 		}

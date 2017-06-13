@@ -29,9 +29,24 @@ public class RaceManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		SetupCheckpoints();
+
 		RaceLength = CheckPoints.Count;
 
 		ObjectManager.SpawnPlayers();
+	}
+
+	void SetupCheckpoints()
+	{
+		CheckPoints.Clear();
+
+		GameObject g = GameObject.Find("Checkpoints");
+		for(int i = 1; i < g.transform.childCount; i++)
+		{
+			CheckPoints.Add(g.transform.GetChild(i).GetComponent<Collider>());
+		}
+
+		CheckPoints.Add(g.transform.GetChild(0).GetComponent<Collider>());
 	}
 	
 	// Update is called once per frame

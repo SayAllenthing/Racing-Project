@@ -14,6 +14,11 @@ public class PlayerUI: MonoBehaviour {
 	CarController car;
 	RaceManager raceManager;
 
+	void Start()
+	{
+		Init(body);
+	}
+
 	// Use this for initialization
 	public void Init (Rigidbody b) 
 	{

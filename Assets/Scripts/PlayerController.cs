@@ -7,6 +7,15 @@ public class PlayerController : CarController {
 	public PlayerNumber Number;
 	public CameraController cam;
 
+	public bool AutoInit = false;
+
+	// Use this for initialization
+	void Start () 
+	{
+		if(AutoInit)
+			Init();
+	}
+
 	public override void Init()
 	{
 		base.Init();
@@ -28,6 +37,8 @@ public class PlayerController : CarController {
 
 		if(Input.GetButtonDown("Flip" + Number.ToString()) && CanFlip)
 			Flip();	
+
+		Debug.Log("My Speed " + GetComponent<Rigidbody>().velocity.magnitude);
 	}
 
 	protected override void OnRaceComplete()

@@ -15,6 +15,9 @@ public class AIController : CarController {
 
 	float NextFartTime = 0;
 
+	float MaxSpeed = 99;
+	bool TryFart = false;
+
 	void FixedUpdate()
 	{
 		if(!bIsActive || NextCheckPoint == null)
@@ -31,13 +34,14 @@ public class AIController : CarController {
 		float angle = Mathf.Acos( dot ) * Mathf.Rad2Deg; 
 
 		float whichWay = -Vector3.Cross(targetDir, transform.forward).y;
+		float forward = -Vector3.Cross(NextCheckPoint.transform.forward, transform.forward).y;
 
 		motor.motor = 1;
 
 		//Move and Steer
-		if(angle < 90 && !TurningAround)
+		if(angle < 100 && !TurningAround)
 		{
-			motor.steering = whichWay;
+			motor.steering = whichWay/2 + forward/2;
 
 			//Sharp Turn
 			if(Mathf.Abs(whichWay) > 0.5f)
@@ -78,6 +82,12 @@ public class AIController : CarController {
 				TurningAround = false;
 		}
 
+		//Am I going to fast for the checkpoint
+		if(body.velocity.magnitude > MaxSpeed)
+		{
+			motor.motor = -1;
+		}
+
 		//Am I stuck Try to get Unstuck
 		if(body.velocity.magnitude < 1.4f && Mathf.Abs(motor.motor) > 0.5f)
 		{
@@ -114,11 +124,13 @@ public class AIController : CarController {
 
 				if(!Physics.Raycast(transform.position, transform.forward, out hit, 4f, layerMask))
 				{
-					int rand = Random.Range(0, 10);
-                    if (rand > 7)
+					bool fart = Random.Range(0, 10) > 7 || TryFart;
+                    
+					if (fart)
                     {
                         NextFartTime = Time.time + 5;
                         Fart();
+						TryFart = false;
                     }
                     else
                     {
@@ -142,7 +154,7 @@ public class AIController : CarController {
 		float dot = Vector3.Dot(targetDir, transform.forward);
 		float angle = Mathf.Acos( dot ) * Mathf.Rad2Deg; 
 
-		float whichWay = -Vector3.Cross(targetDir, transform.forward).y;
+		float whichWay = -Vector3.Cross(NextCheckPoint.transform.forward, transform.forward).y;
 
 		float right = whichWay > 0 ? 2 : 1;
 		float left = whichWay < 0 ? -2 : -1;
@@ -151,5 +163,19 @@ public class AIController : CarController {
 
 		if(PlaceAiMarkers)
 			Instantiate(AiMarkerPrefab, WantPosition, Quaternion.identity);
+
+		Checkpoint cp = NextCheckPoint.GetComponent<Checkpoint>();
+		if(cp != null)
+		{
+			if(cp.MaxSpeed > 0)
+				MaxSpeed = cp.MaxSpeed;
+			TryFart = cp.TryFart;
+			if(TryFart)
+				NextFartTime = Time.time;
+		}
+		else
+		{
+			MaxSpeed = 99;
+		}
 	}
 }

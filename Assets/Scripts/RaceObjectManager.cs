@@ -140,7 +140,7 @@ public class RaceObjectManager : MonoBehaviour {
 
 	void SpawnAI()
 	{
-		for(int i = playerCount; i < 6; i++)
+		for(int i = playerCount; i < 2; i++)
 		{
 			GameObject prefab = CarPrefabManager.Instance.Cars[Random.Range(0,3)];
 			GameObject g = Instantiate(prefab, raceManager.StartingPoints[i].position + Vector3.up * 2, Quaternion.identity);

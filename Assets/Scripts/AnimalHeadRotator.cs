@@ -8,6 +8,7 @@ public class AnimalHeadRotator : MonoBehaviour {
 	float WantRotation = 0;
 
     float DefaultZ = 0;
+	bool left = true;
 
 	// Use this for initialization
 	void Start () {
@@ -33,11 +34,14 @@ public class AnimalHeadRotator : MonoBehaviour {
 
 	void PickRotation()
 	{
-		WantRotation = Mathf.Clamp(DefaultZ + Random.Range(0, 20), 0, 20);
-		rotationTime = Time.time + 2;
-        
+		if(left)
+			WantRotation = DefaultZ + 20;
+		else
+			WantRotation = DefaultZ;
 
-        Debug.Log(WantRotation);
+		left = !left;
+
+		rotationTime = Time.time + Random.Range(1.5f, 3);        
 	}
 
 }

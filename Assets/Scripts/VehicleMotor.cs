@@ -16,6 +16,13 @@ public class VehicleMotor : MonoBehaviour
 
 	public AudioSource EngineNoise;
 
+	Rigidbody rigidbody;
+
+	void Start()
+	{
+		rigidbody = GetComponent<Rigidbody>();
+	}
+
 	// finds the corresponding visual wheel
 	// correctly applies the transform
 	public void ApplyLocalPositionToVisuals(WheelCollider collider, Vector3 offset)
@@ -48,9 +55,11 @@ public class VehicleMotor : MonoBehaviour
 			}
 			if (axleInfo.motor) 
 			{
-				axleInfo.leftWheel.motorTorque = motor * maxMotorTorque;
-				axleInfo.rightWheel.motorTorque = motor * maxMotorTorque;
+				float AccelerationHelper = 10 - Mathf.Clamp(rigidbody.velocity.magnitude, 0, 10);
+				AccelerationHelper *= 250;
 
+				axleInfo.leftWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);
+				axleInfo.rightWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);
 			}
 
 			ApplyLocalPositionToVisuals(axleInfo.leftWheel, axleInfo.Offset);
