@@ -11,7 +11,21 @@ public class RaceObjectManager : MonoBehaviour {
 
 	int playerCount = 0;
 
-	public void SpawnPlayers()
+    List<Transform> StartingPointsJumbled;
+
+    private void Start()
+    {
+        StartingPointsJumbled = new List<Transform>(raceManager.StartingPoints);
+        for (int i = 0; i < StartingPointsJumbled.Count; i++)
+        {
+            Transform temp = StartingPointsJumbled[i];
+            int randomIndex = Random.Range(i, StartingPointsJumbled.Count);
+            StartingPointsJumbled[i] = StartingPointsJumbled[randomIndex];
+            StartingPointsJumbled[randomIndex] = temp;
+        }
+    }
+
+    public void SpawnPlayers()
 	{
 		List<PlayerData> list = PlayersManager.Instance.GetActivePlayers();
 		playerCount = list.Count;
@@ -19,7 +33,7 @@ public class RaceObjectManager : MonoBehaviour {
 		for(int i = 0; i < list.Count; i++)
 		{
 			GameObject prefab = CarPrefabManager.Instance.Cars[list[i].CarPrefab];
-			GameObject g = Instantiate(prefab, raceManager.StartingPoints[i].position + Vector3.up * 2, Quaternion.identity);
+			GameObject g = Instantiate(prefab, StartingPointsJumbled[i].position + Vector3.up * 2, Quaternion.identity);
 			PlayerController pc = g.GetComponent<PlayerController>();
 			pc.Init();
 			pc.pig.SetHat(list[i].HatPrefab);
@@ -139,11 +153,11 @@ public class RaceObjectManager : MonoBehaviour {
 	}
 
 	void SpawnAI()
-	{
-		for(int i = playerCount; i < 2; i++)
+	{        
+		for(int i = playerCount; i < 6; i++)
 		{
 			GameObject prefab = CarPrefabManager.Instance.Cars[Random.Range(0,3)];
-			GameObject g = Instantiate(prefab, raceManager.StartingPoints[i].position + Vector3.up * 2, Quaternion.identity);
+			GameObject g = Instantiate(prefab, StartingPointsJumbled[i].position + Vector3.up * 2, Quaternion.identity);
 			g.GetComponent<AIController>().Init();
 		}
 	}

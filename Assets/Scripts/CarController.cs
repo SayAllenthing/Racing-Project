@@ -63,7 +63,11 @@ public class CarController : MonoBehaviour {
 
 	public void Flip()
 	{
-		Transform t = raceManager.CheckPoints[LapProgess].transform;
+        int index = LapProgess;
+        if (index == 0)
+            index = raceManager.CheckPoints.Count - 1;
+
+        Transform t = raceManager.CheckPoints[index].transform;
 
 		transform.position = t.position + Vector3.up * 5;
 		transform.rotation = t.rotation;

@@ -21,6 +21,7 @@ public class VehicleMotor : MonoBehaviour
 	void Start()
 	{
 		rigidbody = GetComponent<Rigidbody>();
+        rigidbody.centerOfMass = new Vector3(0, 0.1f, -0.1f);
 	}
 
 	// finds the corresponding visual wheel
@@ -55,11 +56,11 @@ public class VehicleMotor : MonoBehaviour
 			}
 			if (axleInfo.motor) 
 			{
-				float AccelerationHelper = 10 - Mathf.Clamp(rigidbody.velocity.magnitude, 0, 10);
-				AccelerationHelper *= 250;
+				float AccelerationHelper = 15 - Mathf.Clamp(rigidbody.velocity.magnitude, 0, 15);
+				AccelerationHelper *= 200;
 
 				axleInfo.leftWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);
-				axleInfo.rightWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);
+				axleInfo.rightWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);                
 			}
 
 			ApplyLocalPositionToVisuals(axleInfo.leftWheel, axleInfo.Offset);
