@@ -39,10 +39,13 @@ public class CarController : MonoBehaviour {
 		if(raceManager != null && !raceManager.bRaceComplete)
 		{
 			raceManager.AddCar(this);
-		}
-
-		bIsActive = true;
+		}		
 	}
+
+    public void Activate()
+    {
+        bIsActive = true;
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -67,7 +70,7 @@ public class CarController : MonoBehaviour {
         if (index == 0)
             index = raceManager.CheckPoints.Count - 1;
 
-        Transform t = raceManager.CheckPoints[index].transform;
+        Transform t = raceManager.CheckPoints[index-1].transform;
 
 		transform.position = t.position + Vector3.up * 5;
 		transform.rotation = t.rotation;

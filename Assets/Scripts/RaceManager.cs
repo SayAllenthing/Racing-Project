@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class RaceManager : MonoBehaviour {
 
+    public enum RaceState
+    {
+        PreRace,
+        Race,
+        End
+    }
+
+    public RaceState State = RaceState.PreRace;
+
 	public List<CarController> Cars;
 
 	public List<CarController> Places = new List<CarController>();
@@ -15,7 +24,6 @@ public class RaceManager : MonoBehaviour {
 
 	public RaceObjectManager ObjectManager;
 
-
 	public int RaceLength = 0;
 
 	public int Laps = 2;
@@ -24,7 +32,9 @@ public class RaceManager : MonoBehaviour {
 
 	public bool bRaceComplete = false;
 
-	float EndTimer = -1;
+    float EndTimer = -1;
+
+
 
 	// Use this for initialization
 	void Start () 
@@ -34,6 +44,8 @@ public class RaceManager : MonoBehaviour {
 		RaceLength = CheckPoints.Count;
 
 		ObjectManager.SpawnPlayers();
+
+        EndTimer = Time.time + 6;
 	}
 
 	void SetupCheckpoints()
@@ -59,9 +71,27 @@ public class RaceManager : MonoBehaviour {
 
 		if(EndTimer > 0 && Time.time > EndTimer)
 		{
-			EndRace();
+            if(State == RaceState.PreRace)
+            {
+                StartRace();
+            }
+            else if(State == RaceState.End)
+            {
+                EndRace();
+            }			
 		}
 	}
+
+    void StartRace()
+    {
+        EndTimer = -1;
+        State = RaceState.Race;
+
+        foreach(CarController c in Cars)
+        {
+            c.Activate();
+        }
+    }
 
 	public void AddCar(CarController car)
 	{
@@ -80,6 +110,7 @@ public class RaceManager : MonoBehaviour {
 				{
 					//Race is done
 					bRaceComplete = true;
+                    State = RaceState.End;
 					EndTimer = Time.time + 10;
 				}
 			}

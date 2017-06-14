@@ -25,9 +25,7 @@ public class PlayerController : CarController {
 	public void FixedUpdate()
 	{		
 		if(!bIsActive)
-			return;
-
-        
+			return;        
 
 		motor.motor = Input.GetAxis("Accel" + Number.ToString()) + Input.GetAxis("Brake" + Number.ToString());
 		motor.steering = Input.GetAxis("Horizontal" + Number.ToString());        
@@ -48,7 +46,8 @@ public class PlayerController : CarController {
 		base.OnRaceComplete();
 		bIsActive = false;
 		GetComponent<AIController>().Init();
+        GetComponent<AIController>().Activate();
 
-		cam.OnRaceComplete();
+        cam.OnRaceComplete();
 	}
 }
