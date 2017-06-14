@@ -21,7 +21,7 @@ public class VehicleMotor : MonoBehaviour
 	void Start()
 	{
 		rigidbody = GetComponent<Rigidbody>();
-        rigidbody.centerOfMass = new Vector3(0, 0.1f, -0.1f);
+        rigidbody.centerOfMass = new Vector3(0, 0.1f, 0.2f);
 	}
 
 	// finds the corresponding visual wheel

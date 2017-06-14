@@ -36,9 +36,7 @@ public class PlayerController : CarController {
 		}
 
 		if(Input.GetButtonDown("Flip" + Number.ToString()) && CanFlip)
-			Flip();	
-
-		//Debug.Log("My Speed " + GetComponent<Rigidbody>().velocity.magnitude);
+			Flip();	        
 	}
 
 	protected override void OnRaceComplete()

@@ -50,7 +50,7 @@ public class CarController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Vector3.Dot(transform.up, Vector3.up) < 0)
+		if(Vector3.Dot(transform.up, Vector3.up) < 0.2f)
 		{
 			if(FlipTime > 2)
 				CanFlip = true;
