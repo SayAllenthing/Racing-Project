@@ -24,6 +24,9 @@ public class UISelectController : MonoBehaviour {
 	bool HorizontalLock = false;
 	bool VerticalLock = false;
 
+    float CheatTime = 0;
+    bool CheatUnlocked = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -33,8 +36,8 @@ public class UISelectController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetButtonDown("Confirm" + Player.Number.ToString()))
-		{            
+        if (Input.GetButtonDown("Confirm" + Player.Number.ToString()))
+		{
 			if(!bEnabled)
 			{
 				Enable();
@@ -56,12 +59,28 @@ public class UISelectController : MonoBehaviour {
 			{
 				UnReady();
 			}
-		}
+		}        
 
 		if(!bEnabled || bReady)
 			return;
 
-		float x = Input.GetAxis("Horizontal" + Player.Number.ToString());
+        if(Input.GetButton("Horn" + Player.Number.ToString()) && !CheatUnlocked)
+        {
+            CheatTime += Time.deltaTime;
+
+            if(CheatTime > 5)
+            {
+                CheatUnlocked = true;
+                Selector.OnCheat();
+                GameObject.Find("Cheat Audio Source").GetComponent<AudioSource>().Play();
+            }
+        }
+        else
+        {
+            CheatTime = 0;
+        }
+
+        float x = Input.GetAxis("Horizontal" + Player.Number.ToString());
 		if(Mathf.Abs(x) > 0.7f && !HorizontalLock)
 		{
 			if(CurrentSelection == 0)

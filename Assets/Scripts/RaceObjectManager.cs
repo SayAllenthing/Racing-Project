@@ -15,6 +15,9 @@ public class RaceObjectManager : MonoBehaviour {
 
     public bool bSpawnAI = false;
 
+    public CanvasGroup HorizontalSeparator;
+    public CanvasGroup VerticalSeparator;
+
     private void Start()
     {
         StartingPointsJumbled = new List<Transform>(raceManager.StartingPoints);
@@ -72,18 +75,20 @@ public class RaceObjectManager : MonoBehaviour {
             if(data == Lowest)
             {
                 cam.rect = new Rect(0, 0.5f, 1, 0.5f);
-                t.localScale = new Vector3(1, 0.5f, 1);
+                t.anchoredPosition = new Vector2(0, 360);
             }
             else
             {
-                cam.rect = new Rect(0, 0, 1, 0.5f);
-                t.localScale = new Vector3(1, 0.5f, 1);
-
-                t.anchoredPosition = new Vector2(0, -360);
+                cam.rect = new Rect(0, 0, 1, 0.5f);                
             }
+
+            HorizontalSeparator.alpha = 1;
 
             return;
         }
+
+        HorizontalSeparator.alpha = 1;
+        VerticalSeparator.alpha = 1;
 
         //4 sections
         switch (data.Number)

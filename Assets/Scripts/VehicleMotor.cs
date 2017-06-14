@@ -78,6 +78,15 @@ public class VehicleMotor : MonoBehaviour
 	{
 		GetComponent<Rigidbody>().AddForce(transform.forward * 500000);
 	}
+
+    public void KillSpeed()
+    {
+        foreach (AxleInfo axleInfo in axleInfos)
+        {
+            axleInfo.leftWheel.brakeTorque = Mathf.Infinity;
+            axleInfo.rightWheel.brakeTorque = Mathf.Infinity;
+        }
+    }
 }
 
 [System.Serializable]

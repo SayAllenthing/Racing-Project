@@ -31,6 +31,11 @@ public class Pig : MonoBehaviour
 		return Hats.ChangeHat(left);
 	}
 
+    public void OnHatCheat()
+    {
+        Hats.OnCheat();
+    }
+
 	public void OnFart()
 	{
 		FartEffect.Play();

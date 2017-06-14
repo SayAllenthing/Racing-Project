@@ -122,4 +122,22 @@ public class CarController : MonoBehaviour {
 	{
 		raceManager.Finished.Add(this);
 	}
+
+    public void KillMovement()
+    {
+        if(motor != null)
+        {
+            motor.KillSpeed();
+            motor.motor = 0;
+            motor.steering = 0;
+        }
+
+        if (body != null)
+        {
+            body.velocity = Vector3.zero;
+            body.angularVelocity = Vector3.zero;
+        }
+
+        bIsActive = false;        
+    }
 }

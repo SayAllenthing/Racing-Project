@@ -44,18 +44,18 @@ public class AIController : CarController {
 			motor.steering = whichWay/2 + forward/2;
 
 			//Sharp Turn
-			if(Mathf.Abs(whichWay) > 0.5f)
+			if(Mathf.Abs(motor.steering) > 0.5f)
 			{				
-				if(body.velocity.magnitude > 8f)
+				if(body.velocity.magnitude > 12f)
 					motor.motor = -1f;
 				else if(body.velocity.magnitude < 3)
 					motor.motor = 1;
 				else
 					motor.motor = 0f;
 			}
-			else if(Mathf.Abs(whichWay) > 0.25f)//Minor Turn
+			else if(Mathf.Abs(motor.steering) > 0.25f)//Minor Turn
 			{
-				if(body.velocity.magnitude > 10)
+				if(body.velocity.magnitude > 15)
 					motor.motor = -0.5f;
 				else if(body.velocity.magnitude < 4)
 					motor.motor = 1f;

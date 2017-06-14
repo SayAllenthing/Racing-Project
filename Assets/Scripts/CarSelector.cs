@@ -10,6 +10,9 @@ public class CarSelector : MonoBehaviour {
 	public int CurrentCar = 0;
 	public int CurrentHat = 0;
 
+    int MaxCars = 1;
+    int MaxHats = 1;
+
 	int Width = 15;
 
 	Vector3 Offset = new Vector3(0, -2, -3f);
@@ -28,6 +31,8 @@ public class CarSelector : MonoBehaviour {
 			SetLayer(g, gameObject.layer);
 			Cars.Add(g);
 		}
+
+        MaxCars = Cars.Count - 1;
 	}
 
 	void SetLayer(GameObject g, int l)
@@ -63,8 +68,8 @@ public class CarSelector : MonoBehaviour {
 		{
 			if(CurrentCar == 0)
 			{
-				transform.position = new Vector3(-Cars.Count * Width, 0, 0) + Offset;
-				CurrentCar = Cars.Count-1;
+				transform.position = new Vector3(-MaxCars * Width, 0, 0) + Offset;
+				CurrentCar = MaxCars - 1;
 			}
 			else
 			{
@@ -73,7 +78,7 @@ public class CarSelector : MonoBehaviour {
 		}
 		else
 		{
-			if(CurrentCar == Cars.Count-1)
+			if(CurrentCar == MaxCars-1)
 			{
 				transform.position = new Vector3(0 + Width, 0, 0) + Offset;
 				CurrentCar = 0;
@@ -97,4 +102,13 @@ public class CarSelector : MonoBehaviour {
 			CurrentHat = g.GetComponent<PlayerController>().pig.ChangeHat(left);
 		}
 	}
+
+    public void OnCheat()
+    {
+        MaxCars = Cars.Count;
+        foreach (GameObject g in Cars)
+        {
+            g.GetComponent<PlayerController>().pig.OnHatCheat();
+        }
+    }
 }

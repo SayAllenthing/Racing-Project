@@ -33,7 +33,7 @@ public class RaceManager : MonoBehaviour {
 
 	public int RaceLength = 0;
 
-	public int Laps = 2;
+	public int Laps = 1;
 
 	float UpdatePlacesTimer = 0;
 
@@ -215,9 +215,26 @@ public class RaceManager : MonoBehaviour {
 		return Finished.Count;
 	}
 
+    void KillEngines()
+    {
+        foreach(CarController c in Cars)
+        {
+            CarController[] con = c.GetComponents<CarController>();
+            foreach(CarController c2 in con)
+            {
+                c2.KillMovement();
+            }
+        }
+    }
+
 	void EndRace()
 	{
-		EndTimer = -1;
-		UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        UpdatePlaces();
+        KillEngines();    
+        GameObject.Find("PostGameManager").GetComponent<PostGameManager>().StartPostGame(Places);
+        //StartPostGame
+
+        EndTimer = -1;
+		UnityEngine.SceneManagement.SceneManager.LoadScene("PostGame");
 	}
 }
