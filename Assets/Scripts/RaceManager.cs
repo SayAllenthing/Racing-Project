@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RaceManager : MonoBehaviour {
 
     public enum RaceState
     {
         PreRace,
+		Go,
         Race,
         End
     }
@@ -24,6 +26,11 @@ public class RaceManager : MonoBehaviour {
 
 	public RaceObjectManager ObjectManager;
 
+	public TextMeshProUGUI CountDownText;
+	public AudioSource CountDownSound;
+
+	public AudioSource Music;
+
 	public int RaceLength = 0;
 
 	public int Laps = 2;
@@ -33,8 +40,6 @@ public class RaceManager : MonoBehaviour {
 	public bool bRaceComplete = false;
 
     float EndTimer = -1;
-
-
 
 	// Use this for initialization
 	void Start () 
@@ -69,23 +74,53 @@ public class RaceManager : MonoBehaviour {
 			UpdatePlaces();
 		}
 
-		if(EndTimer > 0 && Time.time > EndTimer)
-		{
+		if(EndTimer > 0)			
+		{			
             if(State == RaceState.PreRace)
             {
-                StartRace();
+				float timeLeft = EndTimer - Time.time;
+
+				if((int)timeLeft <= 2)
+				{					
+					if(!CountDownText.enabled)
+					{
+						CountDownText.enabled = true;
+						CountDownSound.Play();
+					}
+
+					if((int)timeLeft >= 0)
+						CountDownText.text = ((int)timeLeft+1).ToString("0");
+						
+				}
+
+				if(Time.time > EndTimer)
+                	StartRace();
             }
+			else if(State == RaceState.Go)
+			{
+				if(Time.time > EndTimer)
+				{
+					EndTimer = -1;
+					State = RaceState.Race;
+
+				}
+			}
             else if(State == RaceState.End)
             {
-                EndRace();
+				if(Time.time > EndTimer)
+                	EndRace();
             }			
 		}
 	}
 
     void StartRace()
     {
-        EndTimer = -1;
-        State = RaceState.Race;
+		EndTimer = Time.time + 1;
+        State = RaceState.Go;
+
+		CountDownText.enabled = false;
+		Music.Play();
+		//CountDownText.text = "GO";
 
         foreach(CarController c in Cars)
         {

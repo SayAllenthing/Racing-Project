@@ -14,16 +14,11 @@ public class PlayerUI: MonoBehaviour {
 	CarController car;
 	RaceManager raceManager;
 
-	void Start()
-	{
-		Init(body);
-	}
-
 	// Use this for initialization
-	public void Init (Rigidbody b) 
+	public void Init (CarController c) 
 	{
-		body = b;
-		car = GetActiveController();
+		body = c.GetComponent<Rigidbody>();
+		car = c;
 		raceManager = GameObject.Find("RaceManager").GetComponent<RaceManager>();
 	}
 	

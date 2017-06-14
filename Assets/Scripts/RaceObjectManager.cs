@@ -42,7 +42,7 @@ public class RaceObjectManager : MonoBehaviour {
 			pc.Number = list[i].Number;
 
 			GameObject cam = Instantiate(CameraPrefab, g.transform.position, Quaternion.identity);
-			cam.GetComponent<CameraController>().SetTarget(g.transform);
+			cam.GetComponent<CameraController>().SetTarget(pc);
 
 			pc.cam = cam.GetComponent<CameraController>();
 

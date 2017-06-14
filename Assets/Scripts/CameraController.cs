@@ -12,12 +12,12 @@ public class CameraController : MonoBehaviour {
 
 	bool RaceComplete = false;
 
-	public void SetTarget(Transform t)
+	public void SetTarget(CarController t)
 	{		
-		target = t;
+		target = t.transform;
 		cam.enabled = true;
 
-		playerUI.Init(t.GetComponent<Rigidbody>());
+		playerUI.Init(t);
 	}
 
 	// Update is called once per frame
