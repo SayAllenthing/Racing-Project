@@ -27,10 +27,12 @@ public class PlayerController : CarController {
 		if(!bIsActive)
 			return;
 
-		motor.motor = Input.GetAxis("Accel" + Number.ToString()) + Input.GetAxis("Brake" + Number.ToString());
-		motor.steering = Input.GetAxis("Horizontal" + Number.ToString());
+        
 
-		if(Input.GetButtonDown("Boost" + Number.ToString()))
+		motor.motor = Input.GetAxis("Accel" + Number.ToString()) + Input.GetAxis("Brake" + Number.ToString());
+		motor.steering = Input.GetAxis("Horizontal" + Number.ToString());        
+
+        if (Input.GetButtonDown("Boost" + Number.ToString()))
 		{
 			Fart();
 		}

@@ -13,6 +13,8 @@ public class RaceObjectManager : MonoBehaviour {
 
     List<Transform> StartingPointsJumbled;
 
+    public bool bSpawnAI = false;
+
     private void Start()
     {
         StartingPointsJumbled = new List<Transform>(raceManager.StartingPoints);
@@ -76,7 +78,6 @@ public class RaceObjectManager : MonoBehaviour {
             {
                 cam.rect = new Rect(0, 0, 1, 0.5f);
                 t.localScale = new Vector3(1, 0.5f, 1);
-                Debug.Log(t.localPosition);
 
                 t.anchoredPosition = new Vector2(0, -360);
             }
@@ -153,7 +154,10 @@ public class RaceObjectManager : MonoBehaviour {
 	}
 
 	void SpawnAI()
-	{        
+	{
+        if (!bSpawnAI)
+            return;
+
 		for(int i = playerCount; i < 6; i++)
 		{
 			GameObject prefab = CarPrefabManager.Instance.Cars[Random.Range(0,3)];
