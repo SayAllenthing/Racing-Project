@@ -70,6 +70,8 @@ public class PostGameManager : MonoBehaviour
             PopulatePositions();
             PositionCars();
             EndTimer = 10;
+
+			GameObject.Find("AwardManager").GetComponent<AwardManager>().Init(Cars);
         }
     }
 }

@@ -31,6 +31,11 @@ public class Pig : MonoBehaviour
 		return Hats.ChangeHat(left);
 	}
 
+	public void InitHat()
+	{
+		Hats.Init();
+	}
+
     public void OnHatCheat()
     {
         Hats.OnCheat();

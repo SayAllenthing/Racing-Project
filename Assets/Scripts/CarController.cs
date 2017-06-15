@@ -10,7 +10,7 @@ public class CarController : MonoBehaviour {
 	protected VehicleMotor motor;
 	protected Rigidbody body;
 
-	RaceManager raceManager;
+	protected RaceManager raceManager;
 
 	[HideInInspector]
 	public int LapProgess = 0;
@@ -22,9 +22,7 @@ public class CarController : MonoBehaviour {
 	protected bool CanFlip = false;
 	float FlipTime = 0;
 
-	int Place = 0;
-
-
+	protected bool EnableAudio = false;
 
 	public virtual void Init()
 	{		
@@ -72,7 +70,7 @@ public class CarController : MonoBehaviour {
 
         Transform t = raceManager.CheckPoints[index-1].transform;
 
-		transform.position = t.position + Vector3.up * 5;
+		transform.position = t.position + Vector3.up * 3;
 		transform.rotation = t.rotation;
 
 		CanFlip = false;
@@ -93,6 +91,11 @@ public class CarController : MonoBehaviour {
 	{
 		motor.Boost();
 		pig.OnFart();
+
+		if(!raceManager.bRaceComplete)
+		{
+			GetComponent<Tracker>().Fart();
+		}
 	}
 
 	public void NewLap()

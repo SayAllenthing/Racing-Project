@@ -19,13 +19,26 @@ public class PlayerController : CarController {
 	public override void Init()
 	{
 		base.Init();
-		motor.bEnableAudio = true;
+		EnableAudio = true;
 	}
 
 	public void FixedUpdate()
-	{		
+	{
+		if(EnableAudio)
+		{
+			if(Input.GetButtonDown("Horn" + Number.ToString()))
+			{
+				GetComponent<Horn>().Play();
+
+				if(!raceManager.bRaceComplete)
+				{
+					GetComponent<Tracker>().Horn();
+				}
+			}
+		}
+
 		if(!bIsActive)
-			return;        
+			return;
 
 		motor.motor = Input.GetAxis("Accel" + Number.ToString()) + Input.GetAxis("Brake" + Number.ToString());
 		motor.steering = Input.GetAxis("Horizontal" + Number.ToString());        

@@ -44,6 +44,8 @@ public class RaceObjectManager : MonoBehaviour {
 			pc.pig.SetHat(list[i].HatPrefab);
 			pc.Number = list[i].Number;
 
+			pc.GetComponent<Tracker>().Init(pc);
+
 			GameObject cam = Instantiate(CameraPrefab, g.transform.position, Quaternion.identity);
 			cam.GetComponent<CameraController>().SetTarget(pc);
 
@@ -168,6 +170,8 @@ public class RaceObjectManager : MonoBehaviour {
 			GameObject prefab = CarPrefabManager.Instance.Cars[Random.Range(0,3)];
 			GameObject g = Instantiate(prefab, StartingPointsJumbled[i].position + Vector3.up * 2, Quaternion.identity);
 			g.GetComponent<AIController>().Init();
+
+			g.GetComponent<Tracker>().Init(g.GetComponent<AIController>());
 		}
 	}
 

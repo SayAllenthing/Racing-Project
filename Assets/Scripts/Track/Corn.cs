@@ -28,7 +28,6 @@ public class Corn : MonoBehaviour {
         if (collision.collider.tag != "Terrain")
         {
             gameObject.layer = LayerMask.NameToLayer("Ignore Default");
-
             KillTimer = 2;
         }
     }

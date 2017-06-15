@@ -9,10 +9,10 @@ public class HatController : MonoBehaviour {
 	int CurrentHat = 0;
     int MaxHats = 1;
 
-	void Start()
+	public void Init()
 	{
 		SetHat();
-        MaxHats = Hats.Count - 1;
+		MaxHats = Hats.Count - 1;
 	}
 
 	void SetHat()
