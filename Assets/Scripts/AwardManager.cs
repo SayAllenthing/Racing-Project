@@ -211,6 +211,9 @@ public class AwardManager : MonoBehaviour {
 			}				
 		}
 
+        if (highest == 0)
+            return;
+
 		if(NumAwards[index] < 3)
 		{
 			string title = "Horny";

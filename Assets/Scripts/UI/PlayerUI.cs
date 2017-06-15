@@ -11,6 +11,8 @@ public class PlayerUI: MonoBehaviour {
 	public TextMeshProUGUI LapText;
 	public TextMeshProUGUI PlaceText;
 
+    public FartBar fartBar;
+
 	CarController car;
 	RaceManager raceManager;
 
@@ -32,6 +34,8 @@ public class PlayerUI: MonoBehaviour {
 		LapText.text = "Lap: " + Mathf.Clamp(car.GetLap(), 1, raceManager.Laps)  + "/" + raceManager.Laps;
 
 		PlaceText.text = raceManager.GetPlace(car) + "/6";
+
+        fartBar.SetFillAmount(car.FartAmount/100f);
 	}
 
 	CarController GetActiveController()

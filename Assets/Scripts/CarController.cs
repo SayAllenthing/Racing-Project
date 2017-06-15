@@ -24,6 +24,8 @@ public class CarController : MonoBehaviour {
 
 	protected bool EnableAudio = false;
 
+    public float FartAmount = 50;
+
 	public virtual void Init()
 	{		
 		motor = GetComponent<VehicleMotor>();
@@ -48,6 +50,9 @@ public class CarController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+        if (!bIsActive)
+            return;
+
 		if(Vector3.Dot(transform.up, Vector3.up) < 0.2f)
 		{
 			if(FlipTime > 2)
@@ -60,6 +65,23 @@ public class CarController : MonoBehaviour {
 			FlipTime = 0;
 			CanFlip = false;
 		}
+
+        //Stability
+        if(transform.position.y > 2)
+        {
+            Debug.Log("Stabilizing");
+            body.angularVelocity = new Vector3(0, body.angularVelocity.y, 0);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, 0)), 2 * Time.deltaTime);
+        }
+
+        if(raceManager != null && !raceManager.bRaceComplete)
+        {
+            float place = (float)raceManager.GetPlace(this);
+            FartAmount += 1f * ((place+1)/2f) * Time.deltaTime;
+
+            if (FartAmount > 100)
+                FartAmount = 100;
+        }
 	}
 
 	public void Flip()
@@ -89,6 +111,11 @@ public class CarController : MonoBehaviour {
 
 	public void Fart()
 	{
+        if(FartAmount < 15)
+        {
+            return;
+        }
+
 		motor.Boost();
 		pig.OnFart();
 
@@ -96,6 +123,8 @@ public class CarController : MonoBehaviour {
 		{
 			GetComponent<Tracker>().Fart();
 		}
+
+        FartAmount -= 15;
 	}
 
 	public void NewLap()
