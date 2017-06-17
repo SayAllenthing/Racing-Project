@@ -14,6 +14,8 @@ public class VehicleMotor : MonoBehaviour
 	[HideInInspector]
 	public bool bEnableAudio = false;
 
+	bool bDisabled = false;
+
 	public AudioSource EngineNoise;
 
 	Rigidbody rigidbody;
@@ -60,7 +62,19 @@ public class VehicleMotor : MonoBehaviour
 				AccelerationHelper *= 200;
 
 				axleInfo.leftWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);
-				axleInfo.rightWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);                
+				axleInfo.rightWheel.motorTorque = motor * (maxMotorTorque + AccelerationHelper);
+
+				float WantToSlow = Mathf.Abs(motor - Vector3.Dot(rigidbody.velocity.normalized, transform.forward));
+				if(WantToSlow > 1.75f)
+				{
+					axleInfo.leftWheel.brakeTorque = 10000;
+					axleInfo.rightWheel.brakeTorque = 10000;
+				}
+				else if(!bDisabled)
+				{
+					axleInfo.leftWheel.brakeTorque = 0;
+					axleInfo.rightWheel.brakeTorque = 0;
+				}
 			}
 
 			ApplyLocalPositionToVisuals(axleInfo.leftWheel, axleInfo.Offset);
@@ -81,6 +95,8 @@ public class VehicleMotor : MonoBehaviour
 
     public void KillSpeed()
     {
+		bDisabled = true;
+
         foreach (AxleInfo axleInfo in axleInfos)
         {
             axleInfo.leftWheel.brakeTorque = Mathf.Infinity;

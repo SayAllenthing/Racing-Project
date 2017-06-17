@@ -68,9 +68,10 @@ public class CarController : MonoBehaviour {
 
         //Stability
         if(transform.position.y > 2)
-        {
-            Debug.Log("Stabilizing");
-            body.angularVelocity = new Vector3(0, body.angularVelocity.y, 0);
+        {            
+			float angularY = Mathf.Lerp(body.angularVelocity.y, 0, Time.deltaTime);
+			body.angularVelocity = new Vector3(0, angularY, 0);
+
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, 0)), 2 * Time.deltaTime);
         }
 

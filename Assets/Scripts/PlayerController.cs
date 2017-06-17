@@ -20,6 +20,7 @@ public class PlayerController : CarController {
 	{
 		base.Init();
 		EnableAudio = true;
+		motor.bEnableAudio = true;
 	}
 
 	public void FixedUpdate()
@@ -33,6 +34,7 @@ public class PlayerController : CarController {
 				if(!raceManager.bRaceComplete)
 				{
 					GetComponent<Tracker>().Horn();
+
 				}
 			}
 		}
@@ -41,7 +43,17 @@ public class PlayerController : CarController {
 			return;
 
 		motor.motor = Input.GetAxis("Accel" + Number.ToString()) + Input.GetAxis("Brake" + Number.ToString());
-		motor.steering = Input.GetAxis("Horizontal" + Number.ToString());        
+		motor.steering = Input.GetAxis("Horizontal" + Number.ToString());
+
+		if(transform.position.y > 2)
+		{ 
+			float WantRot = Input.GetAxis("Horizontal" + Number.ToString());
+			transform.Rotate(Vector3.up, WantRot * 50 * Time.deltaTime);
+
+			if(Mathf.Abs(WantRot) > 0.25f)
+				body.angularVelocity = Vector3.zero;
+		}
+
 
         if (Input.GetButtonDown("Boost" + Number.ToString()))
 		{
@@ -49,7 +61,9 @@ public class PlayerController : CarController {
 		}
 
 		if(Input.GetButtonDown("Flip" + Number.ToString()) && CanFlip)
+		{
 			Flip();	        
+		}
 	}
 
 	protected override void OnRaceComplete()

@@ -108,7 +108,6 @@ public class CarSelector : MonoBehaviour {
 	{
 		foreach(GameObject g in Cars)
 		{
-			Debug.Log(g.name);
 			CurrentHat = g.GetComponent<PlayerController>().pig.ChangeHat(left);
 		}
 	}
