@@ -11,6 +11,8 @@ public class PlayerUI: MonoBehaviour {
 	public TextMeshProUGUI LapText;
 	public TextMeshProUGUI PlaceText;
 
+	public TextMeshProUGUI FinishPlaceText;
+
     public FartBar fartBar;
 
 	CarController car;
@@ -50,5 +52,25 @@ public class PlayerUI: MonoBehaviour {
 		}
 
 		return null;
+	}
+
+	public void OnRaceComplete()
+	{
+		int place = raceManager.GetPlace(car);
+
+		FinishPlaceText.enabled = true;
+		FinishPlaceText.text = GetPlaceText(place);
+	}
+
+	string GetPlaceText(int place)
+	{
+		switch(place)
+		{
+		case 1: return "1st"; break;
+		case 2: return "2nd"; break;
+		case 3: return "3rd"; break;
+		}
+
+		return place.ToString() + "th";
 	}
 }

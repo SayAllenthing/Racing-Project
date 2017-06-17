@@ -146,7 +146,9 @@ public class RaceManager : MonoBehaviour {
 					//Race is done
 					bRaceComplete = true;
                     State = RaceState.End;
-					EndTimer = Time.time + 10;
+					EndTimer = Time.time + 20;
+					Music.Stop();
+					GameObject.Find("PostGameManager").GetComponent<PostGameManager>().OnRaceComplete();
 				}
 			}
 			car.NewLap();

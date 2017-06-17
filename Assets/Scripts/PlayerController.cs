@@ -30,7 +30,6 @@ public class PlayerController : CarController {
 			if(Input.GetButtonDown("Horn" + Number.ToString()))
 			{
 				GetComponent<Horn>().Play();
-
 				if(!raceManager.bRaceComplete)
 				{
 					GetComponent<Tracker>().Horn();

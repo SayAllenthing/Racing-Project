@@ -41,5 +41,6 @@ public class CameraController : MonoBehaviour {
 	public void OnRaceComplete()
 	{
 		RaceComplete = true;
+		playerUI.OnRaceComplete();
 	}
 }

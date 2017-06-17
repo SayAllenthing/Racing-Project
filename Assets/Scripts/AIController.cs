@@ -18,6 +18,14 @@ public class AIController : CarController {
 	float MaxSpeed = 99;
 	bool TryFart = false;
 
+	float NextHornTime = -1;
+
+	public override void Init()
+	{
+		base.Init();
+		NextHornTime = Time.time + Random.Range(1,25);
+	}
+
 	void FixedUpdate()
 	{
 		if(!bIsActive || NextCheckPoint == null)
@@ -140,7 +148,16 @@ public class AIController : CarController {
 			}
 		} 
 
+		if(Time.timeSinceLevelLoad > NextHornTime)
+		{			
+			if(!raceManager.bRaceComplete)
+			{
+				GetComponent<Horn>().Play();
+				GetComponent<Tracker>().Horn();
+			}
 
+			NextHornTime = Time.timeSinceLevelLoad + Random.Range(1,25);
+		}
 	}
 
 	protected override void OnNextCheckPoint()

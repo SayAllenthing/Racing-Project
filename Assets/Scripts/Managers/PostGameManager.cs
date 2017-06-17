@@ -8,12 +8,19 @@ public class PostGameManager : MonoBehaviour
 
     public List<GameObject> Cars;
 
+	public AudioSource EndingMusic;
+
     float EndTimer = -1;
 
     private void Start()
     {
         DontDestroyOnLoad(this);
     }
+
+	public void OnRaceComplete()
+	{
+		EndingMusic.Play();
+	}
 
     public void StartPostGame(List<CarController> Places)
     {
@@ -69,7 +76,7 @@ public class PostGameManager : MonoBehaviour
         {
             PopulatePositions();
             PositionCars();
-            EndTimer = 10;
+            EndTimer = 15;
 
 			GameObject.Find("AwardManager").GetComponent<AwardManager>().Init(Cars);
         }
